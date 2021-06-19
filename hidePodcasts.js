@@ -13,7 +13,7 @@ const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
     const { Player, Menu, LocalStorage, Platform } = Spicetify;
     const main = document.querySelector('.main-view-container__scroll-node-child');
     if (!(Player && Menu && LocalStorage && Platform && main)) {
-        // console.log('Not ready, waiting...');
+        console.log('Not ready, waiting...');
         setTimeout(HidePodcasts, 1000);
         return;
     }
