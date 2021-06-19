@@ -58,6 +58,7 @@ const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
 
     // Listen for page navigation events
     Platform.History.listen(({ pathname }) => {
+        console.log('history/pathname changed:', pathname);
         listenThenApply(pathname);
     });
 })();
