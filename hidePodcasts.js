@@ -35,31 +35,42 @@ const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
         tagItems();
     }
 
-    // Listen to page navigation and re-apply when DOM is ready
-    function listenThenApply(pathname) {
-        const observer = new MutationObserver(function appchange(){
-            // Look for specific section on search page, or any section on other pages
-            const app = pathname === '/search'
-                ? main.querySelector('.x-searchBrowse-SearchBrowse')
-                : main.querySelector('section');
+    apply();
 
-            if (app) {
-                console.log(pathname, app);
-                apply();
-                observer.disconnect();
-            }
-        })
-        // I need to include subtree because the Search page only has one child and the content is under there
-        observer.observe(main, { childList: true, subtree: true });
-    }
-
-    // Initial scan on app load
-    listenThenApply(Platform.History.location.pathname);
-
-    // Listen for page navigation events
-    Platform.History.listen(({ pathname }) => {
-        listenThenApply(pathname);
+    // https://github.com/khanhas/spicetify-cli/blob/d12d98c940caa79b8640edc354892ce04f225b0e/jsHelper/spicetifyWrapper.js#L1038
+    Player.addEventListener('appchange', (e) => {
+        const { path, container } = e.data;
+        console.log('appchange: ', path, container);
+        if (!isEnabled) return;
+        apply();
     });
+
+
+    // Listen to page navigation and re-apply when DOM is ready
+    // function listenThenApply(pathname) {
+    //     const observer = new MutationObserver(function appchange(){
+    //         // Look for specific section on search page, or any section on other pages
+    //         const app = pathname === '/search'
+    //             ? main.querySelector('.x-searchBrowse-SearchBrowse')
+    //             : main.querySelector('section');
+
+    //         if (app) {
+    //             console.log(pathname, app);
+    //             apply();
+    //             observer.disconnect();
+    //         }
+    //     })
+    //     // I need to include subtree because the Search page only has one child and the content is under there
+    //     observer.observe(main, { childList: true, subtree: true });
+    // }
+
+    // // Initial scan on app load
+    // listenThenApply(Platform.History.location.pathname);
+
+    // // Listen for page navigation events
+    // Platform.History.listen(({ pathname }) => {
+    //     listenThenApply(pathname);
+    // });
 })();
 
 /**
